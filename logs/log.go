@@ -1,8 +1,8 @@
 package logs
 
 import (
-	"github.com/Tokumicn/go-frame/lego-lib/logs/logrus"
-	"github.com/Tokumicn/go-frame/lego-lib/logs/zap"
+	"lego-lib/logs/logrus"
+	"lego-lib/logs/zap"
 )
 
 // FileConfig 日志配置项 文件类型时需要配置

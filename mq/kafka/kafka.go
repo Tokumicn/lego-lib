@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/Tokumicn/go-frame/lego-lib/logs"
-	"github.com/Tokumicn/go-frame/lego-lib/mq"
+	"lego-lib/logs"
+	"lego-lib/mq"
 	"runtime/debug"
 	"time"
 

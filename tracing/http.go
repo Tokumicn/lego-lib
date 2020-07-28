@@ -6,7 +6,7 @@ import (
 	"github.com/opentracing/opentracing-go"
 	"github.com/rs/xid"
 
-	"github.com/Tokumicn/go-frame/lego-lib/net/http"
+	"lego-lib/net/http"
 )
 
 // StartHTTPClientSpan 根据ctx和http.Request获取span

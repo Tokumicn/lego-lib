@@ -8,13 +8,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Tokumicn/go-frame/lego-lib/cache"
 	"github.com/gomodule/redigo/redis"
+	"lego-lib/cache"
 )
 
 var (
 	// DefaultKey the collection name of redis for cache adapter.
-	DefaultKey = "skylarRedis"
+	DefaultKey = "legoRedis"
 )
 
 // Cache is Redis cache adapter.
