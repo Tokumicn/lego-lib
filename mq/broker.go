@@ -112,6 +112,10 @@ type TopicConfig struct {
 	Topic string `toml:"topic"`
 }
 
+type GroupConfig struct {
+	Topics []*TopicConfig `toml:"topics"`
+}
+
 // Config 消息队列配置项
 type Config struct {
 	Broker    string         `toml:"broker"`
@@ -119,6 +123,5 @@ type Config struct {
 	AccessKey string         `toml:"access_key"`
 	SecretKey string         `toml:"secret_key"`
 	Instance  string         `toml:"instance"`
-	Group     string         `toml:"group"`
-	Topics    []*TopicConfig `toml:"topics"`
+	Groups    []*GroupConfig `toml:"groups"`
 }
