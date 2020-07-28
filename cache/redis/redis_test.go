@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Tokumicn/lego-lib/cache"
 	"github.com/gomodule/redigo/redis"
-	"lego-lib/cache"
 )
 
 func TestRedisCache(t *testing.T) {

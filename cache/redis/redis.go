@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Tokumicn/lego-lib/cache"
 	"github.com/gomodule/redigo/redis"
-	"lego-lib/cache"
 )
 
 var (

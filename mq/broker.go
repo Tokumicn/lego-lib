@@ -3,7 +3,7 @@ package mq
 import (
 	"context"
 	"errors"
-	"lego-lib/mq/kafka"
+	"github.com/Tokumicn/lego-lib/mq/kafka"
 )
 
 const (

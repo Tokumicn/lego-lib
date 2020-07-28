@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"lego-lib/logs"
+	"github.com/Tokumicn/lego-lib/logs"
 )
 
 // Logger gin log插件

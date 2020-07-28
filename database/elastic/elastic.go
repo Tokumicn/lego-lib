@@ -1,8 +1,8 @@
 package elastic
 
 import (
+	"github.com/Tokumicn/lego-lib/logs"
 	"gopkg.in/olivere/elastic.v5"
-	"lego-lib/logs"
 )
 
 const (

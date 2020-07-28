@@ -11,7 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"lego-lib/logs"
+	"github.com/Tokumicn/lego-lib/logs"
 )
 
 // Recover gin panic recover插件

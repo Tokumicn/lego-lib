@@ -1,4 +1,4 @@
-module lego-lib
+module github.com/Tokumicn/lego-lib
 
 go 1.14
 

@@ -8,7 +8,7 @@ import (
 	// 引用gorm同时需要引用对应的库 - postgres
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 
-	"lego-lib/logs"
+	"github.com/Tokumicn/lego-lib/logs"
 )
 
 type (
