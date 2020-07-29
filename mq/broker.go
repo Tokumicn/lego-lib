@@ -3,7 +3,6 @@ package mq
 import (
 	"context"
 	"errors"
-	"github.com/Tokumicn/lego-lib/mq/kafka"
 )
 
 const (
@@ -35,7 +34,7 @@ type Consumer interface {
 }
 
 // NewConsumer 创建Consumer
-func NewConsumer(broker int, conf Config) Consumer {
+func NewConsumer(broker int, conf *Config) Consumer {
 	var (
 		consumer Consumer
 		err      error
@@ -43,7 +42,7 @@ func NewConsumer(broker int, conf Config) Consumer {
 
 	switch broker {
 	case KAFKA:
-		consumer, err = kafka.NewKafkaConsumer(conf)
+		consumer, err = NewKafkaConsumer(conf)
 	default:
 		consumer, err = nil, errors.New("unknow broker type")
 	}
@@ -61,7 +60,7 @@ type SyncProducer interface {
 }
 
 // NewSyncProducer 创建SyncProducer
-func NewSyncProducer(broker int, conf Config) SyncProducer {
+func NewSyncProducer(broker int, conf *Config) SyncProducer {
 	var (
 		producer SyncProducer
 		err      error
@@ -69,7 +68,7 @@ func NewSyncProducer(broker int, conf Config) SyncProducer {
 
 	switch broker {
 	case KAFKA:
-		producer, err = kafka.NewKafkaSyncProducer(conf)
+		producer, err = NewKafkaSyncProducer(conf)
 	default:
 		producer, err = nil, errors.New("unknow broker type")
 	}
@@ -95,7 +94,7 @@ func NewAsyncProducer(broker int, conf Config) AsyncProducer {
 
 	switch broker {
 	case KAFKA:
-		producer, err = kafka.NewKafkaAsyncProducer(conf)
+		producer, err = NewKafkaAsyncProducer(conf)
 	default:
 		producer, err = nil, errors.New("unknow broker type")
 	}
@@ -112,16 +111,13 @@ type TopicConfig struct {
 	Topic string `toml:"topic"`
 }
 
-type GroupConfig struct {
-	Topics []*TopicConfig `toml:"topics"`
-}
-
 // Config 消息队列配置项
 type Config struct {
-	Broker    string         `toml:"broker"`
-	Endpoints []string       `toml:"endpoints"`
-	AccessKey string         `toml:"access_key"`
-	SecretKey string         `toml:"secret_key"`
-	Instance  string         `toml:"instance"`
-	Groups    []*GroupConfig `toml:"groups"`
+	Broker    string        `toml:"broker"`
+	Endpoints []string      `toml:"endpoints"`
+	AccessKey string        `toml:"access_key"`
+	SecretKey string        `toml:"secret_key"`
+	Instance  string        `toml:"instance"`
+	Group     string        `toml:"group"`
+	Topics    []TopicConfig `toml:"topics"`
 }

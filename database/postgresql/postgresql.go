@@ -26,18 +26,15 @@ type Pool struct {
 
 // NodeConfig 一个实例配置
 type NodeConfig struct {
-	Host    string
-	Auth    string
-	Opts    string
-	Name    string
-	MaxIdle int `toml:"max_idle"`
-	MaxOpen int `toml:"max_open"`
-	MaxLife int `toml:"max_life"`
+	Host    string `toml:"host"`
+	MaxIdle int    `toml:"max_idle"`
+	MaxOpen int    `toml:"max_open"`
+	MaxLife int    `toml:"max_life"`
 }
 
 // Config mysql对外配置
 type Config struct {
-	Debug      bool
+	Debug      bool `toml:"debug"`
 	NodeConfig *NodeConfig
 }
 

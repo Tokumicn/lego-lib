@@ -1,11 +1,10 @@
-package kafka
+package mq
 
 import (
 	"context"
 	"errors"
 	"fmt"
 	"github.com/Tokumicn/lego-lib/logs"
-	"github.com/Tokumicn/lego-lib/mq"
 	"runtime/debug"
 	"time"
 
@@ -19,7 +18,7 @@ type KafkaConsumer struct {
 }
 
 // NewKafkaConsumer 创建KafkaConsumer
-func NewKafkaConsumer(conf mq.Config) (*KafkaConsumer, error) {
+func NewKafkaConsumer(conf *Config) (*KafkaConsumer, error) {
 	config := sarama.NewConfig()
 	config.Version = sarama.V2_3_0_0
 	config.Consumer.Offsets.Initial = sarama.OffsetNewest
@@ -43,7 +42,7 @@ func NewKafkaConsumer(conf mq.Config) (*KafkaConsumer, error) {
 }
 
 // Recv 消费消息 设置回调函数
-func (c *KafkaConsumer) Recv(name string, callback mq.CallbackHandler) error {
+func (c *KafkaConsumer) Recv(name string, callback CallbackHandler) error {
 	topic, ok := c.topics[name]
 	if !ok {
 		return errors.New("kafka consume find topic failed")
@@ -87,7 +86,7 @@ type KafkaSyncProducer struct {
 }
 
 // NewKafkaSyncProducer 创建KafkaSyncProducer
-func NewKafkaSyncProducer(conf mq.Config) (*KafkaSyncProducer, error) {
+func NewKafkaSyncProducer(conf *Config) (*KafkaSyncProducer, error) {
 	config := sarama.NewConfig()
 	config.Version = sarama.V2_3_0_0
 	config.Producer.Return.Successes = true
@@ -111,7 +110,7 @@ func NewKafkaSyncProducer(conf mq.Config) (*KafkaSyncProducer, error) {
 }
 
 // Send 同步发送消息
-func (p *KafkaSyncProducer) Send(ctx context.Context, name string, msg *mq.Message) error {
+func (p *KafkaSyncProducer) Send(ctx context.Context, name string, msg *Message) error {
 	if p.client == nil {
 		return errors.New("kafka sync broker client nil")
 	}
@@ -145,7 +144,7 @@ type KafkaAsyncProducer struct {
 }
 
 // NewKafkaAsyncProducer 创建KafkaAsyncProducer
-func NewKafkaAsyncProducer(conf mq.Config) (*KafkaAsyncProducer, error) {
+func NewKafkaAsyncProducer(conf Config) (*KafkaAsyncProducer, error) {
 	config := sarama.NewConfig()
 	config.Version = sarama.V2_3_0_0
 	config.Producer.Compression = sarama.CompressionSnappy
@@ -170,7 +169,7 @@ func NewKafkaAsyncProducer(conf mq.Config) (*KafkaAsyncProducer, error) {
 }
 
 // Send 异步发送消息
-func (p *KafkaAsyncProducer) Send(ctx context.Context, name string, msg *mq.Message) error {
+func (p *KafkaAsyncProducer) Send(ctx context.Context, name string, msg *Message) error {
 	if p.client == nil {
 		return errors.New("kafka async broker client nil")
 	}
@@ -210,7 +209,7 @@ func (p *KafkaAsyncProducer) asyncRecvErrors() {
 // GroupHandler 回调封装 sarama约定
 type GroupHandler struct {
 	TopicName       string
-	CallbackHandler mq.CallbackHandler
+	CallbackHandler CallbackHandler
 	ConsumerGroup   sarama.ConsumerGroup
 }
 
@@ -230,7 +229,7 @@ func (g *GroupHandler) ConsumeClaim(sess sarama.ConsumerGroupSession, claim sara
 	for msg := range claim.Messages() {
 		if err := g.CallbackHandler(context.TODO(), &KafkaEvent{
 			Topic:   msg.Topic,
-			Message: mq.Message{Tag: getMessageTag(msg.Headers), Key: string(msg.Key), Value: msg.Value},
+			Message: Message{Tag: getMessageTag(msg.Headers), Key: string(msg.Key), Value: msg.Value},
 		}); err == nil {
 			sess.MarkMessage(msg, "")
 		}
@@ -247,7 +246,7 @@ func doRecover() {
 // KafkaEvent kafka消息事件
 type KafkaEvent struct {
 	Topic   string
-	Message mq.Message
+	Message Message
 }
 
 // GetTopic 获取事件对应的Topic
@@ -256,7 +255,7 @@ func (k *KafkaEvent) GetTopic() string {
 }
 
 // GetMessage 获取事件对应的Message
-func (k *KafkaEvent) GetMessage() mq.Message {
+func (k *KafkaEvent) GetMessage() Message {
 	return k.Message
 }
 
