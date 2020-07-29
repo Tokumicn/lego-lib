@@ -42,18 +42,18 @@ var (
 )
 
 // Init Log全局初始化函数 调用方保证全局调用一次
-func Init(conf Config) {
+func Init(conf *Config) {
 	defaultLogger = initZap(conf)
 	//defaultLogger = initLogrus(conf)
 }
 
 // InitData 数据Log全局初始化函数 调用方保证全局调用一次
-func InitData(conf Config) {
+func InitData(conf *Config) {
 	defaultLogger = initZap(conf)
 	//defaultLogger = initLogrus(conf)
 }
 
-func initZap(conf Config) *zap.Logger {
+func initZap(conf *Config) *zap.Logger {
 	return zap.NewLogger(zap.Config{
 		Writer: conf.Writer,
 		FileConfig: zap.FileConfig{
@@ -67,7 +67,7 @@ func initZap(conf Config) *zap.Logger {
 	})
 }
 
-func initLogrus(conf Config) *logrus.Logger {
+func initLogrus(conf *Config) *logrus.Logger {
 	return logrus.NewLogger(logrus.Config{
 		Writer: conf.Writer,
 		FileConfig: logrus.FileConfig{
